@@ -1,0 +1,2 @@
+use absuiterelease
+db.machinesettings.insert({'teamBranch':'Team_Mod','Macihne':'BuildMachine','iPAddress':'10.207.100.10','Username':'root','Password':'root','Program':'Cscript','Script Path':'c:/script/AutoBuild.vbs'});
