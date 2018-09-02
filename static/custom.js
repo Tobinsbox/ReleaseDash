@@ -1,36 +1,34 @@
 $(document).ready(function () {
-
             $("#CycleList").append('<option>' +"Cycle 29" + '</option>');
             $("#releaseStatus").hide();
             $("#branchStatus").hide();
             $("#jobSetting").hide();
             $("#buildLog").hide();
 
+            $(".name").click(function () {
+                $(this).siblings().removeClass('active');
+                $(this).toggleClass("active");
+
+            })
+
+
             $("#branchStatusLink").click(function(){
-                $("#releaseStatus").hide();
-                $("#jobSetting").hide();
-                $("#buildLog").hide();
+                $("#branchStatus").siblings('div').hide();
                 $("#branchStatus").toggle();
             });
 
             $("#releaseStatusLink").click(function(){
-                $("#branchStatus").hide();
-                $("#jobSetting").hide();
-                $("#buildLog").hide();
+                $("#releaseStatus").siblings('div').hide();
                 $("#releaseStatus").toggle();
             });
 
             $("#jobSettingLink").click(function(){
-                $("#releaseStatus").hide();
-                $("#branchStatus").hide();
-                $("#buildLog").hide();
+                $("#jobSetting").siblings('div').hide();
                 $("#jobSetting").toggle();
             });
 
             $("#buildLogLink").click(function(){
-                $("#releaseStatus").hide();
-                $("#branchStatus").hide();
-                $("#jobSetting").hide(); 
+                $("#buildLog").siblings('div').hide();
                 $("#buildLog").toggle();
             });
 

@@ -20,6 +20,11 @@ def upload():
         f.save("uploads/"+secure_filename(f.filename));
     return redirect(url_for('hello_world',name=None))
 
+@app.route('/insertNewScriptItem')
+def insertNewScriptItem():
+
+    pass
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('page_not_found.html'), 404

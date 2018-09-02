@@ -1,21 +1,20 @@
-#CycleBranchStatus{
-    margin-left:15px;
+table{
     border:1px solid black;
     border-collapse:collapse;
 }
 
-#CycleBranchStatus th,#CycleBranchStatus th td{
+table th,table th td{
     background-color:lightgreen;
     color:white;
     border:1px solid black;
     border-collapse:collapse;
     text-align:center;
 }
-
-#CycleBranchStatus tr td{
+table tr td{
     border:1px solid black;
     border-collapse:collapse;
 }
+
 .header{
     width:100%;
     padding:15px;
@@ -26,7 +25,8 @@ footer{
     font-size: 12px;
     color: white;
     position:absolute;
-    bottom:0;
+    flex: 0 0 auto;
+    bottom:0px;
     width:100%;
     padding: 2px;
     text-align:center;
