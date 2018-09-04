@@ -18,213 +18,229 @@
                         $("#cycleList").append($("<p></p>").text("Cycle "+(Number(curVal)-i)))
                     }
         }
+
+        function AddNewScript(){
+            document.getElementById("jobSettingForm").submit();
+            alert('click link')
+            document.getElementById("jobSettingLink").click();
+        }
+
     </script>
 </head>
 <body>
-<header class="header"><h1 style="color:white;">Welcome To ABSuite Release Site</h1></header>
-<nav class="top-bar" data-topbar>
-    <section class="top-bar-section">
-        <ul class="left">
-            <li class="name"><a href="#" id="releaseStatusLink">Release Status</a></li>
-            <li class="name"><a href="#" id="branchStatusLink">Branch Status</a></li>
-            <li class="name"><a href="#" id="jobSettingLink">Job Setting</a></li>
-            <li class="name"><a href="#" id="buildLogLink">Build Log Monitor</a></li>
-        </ul>
-    </section>
-</nav>
-<div id="releaseStatus" class="row left" style="margin-left:15px;margin-top:5px;">
-    <div class="dropdown">
-        <span>Cycle List</span>
-        <div class="dropdown-content" id="cycleList">
+<div class="page">
+
+    <header class="header"><h1 style="color:white;">Welcome To ABSuite Release Site</h1></header>
+    <nav class="top-bar" data-topbar>
+        <section class="top-bar-section">
+            <ul class="left">
+                <li class="name"><a href="#" id="releaseStatusLink">Release Status</a></li>
+                <li class="name"><a href="#" id="branchStatusLink">Branch Status</a></li>
+                <li class="name"><a href="#" id="jobSettingLink">Job Setting</a></li>
+                <li class="name"><a href="#" id="buildLogLink">Build Log Monitor</a></li>
+            </ul>
+        </section>
+    </nav>
+    <div id="releaseStatus" class="row left" style="margin-left:15px;margin-top:5px;">
+        <div class="dropdown">
+            <span>Cycle List</span>
+            <div class="dropdown-content" id="cycleList">
+            </div>
+        </div>
+        <span id="currentCycle"></span>
+        <input type="range" name="maxCycle" min="20" max="99" id="cycleRange" style="width:200px;"
+               oninput="change()"><span id="minMaxRange"></span>
+        <div style="margin-top:20px;">
+            <table>
+                <caption>Branch Status</caption>
+                <tr>
+                    <th>Cycle</th>
+                    <th>Branch Name</th>
+                    <th>Final Status</th>
+                    <th>Detail Link</th>
+                </tr>
+            </table>
         </div>
     </div>
-    <span id="currentCycle"></span>
-    <input type="range" name="maxCycle" min="20" max="99" id="cycleRange" style="width:200px;" oninput="change()"><span id="minMaxRange"></span>
-    <div style="margin-top:20px;">
-        <table>
-            <caption>Branch Status</caption>
+
+    <div id="branchStatus" class="row left" style="margin-left:15px;width:100%;">
+        <form id="insertBranch" action="" method="post">
+
+            <div class="small-12 columns">
+                <label for="branchNameNew"> New Branch:</label><input type="text" id="BranchNameNew">
+            </div>
+            <div>
+                <input type="submit" value="Add" class="button tiny round" style="margin-top:22px;">
+            </div>
+        </form>
+        <div class="row" style="margin-left:15px;">
+            <label for="">Select Branch</label>
+            <select id="branches" class="small-3 columns">
+                <option>Mod</option>
+                <option>Basic</option>
+            </select>
+        </div>
+
+        <table id="CycleBranchStatus">
             <tr>
-                <th>Cycle</th>
-                <th>Branch Name</th>
-                <th>Final Status</th>
-                <th>Detail Link</th>
+                <th rowspan="2">Cycle</th>
+                <th rowspan="2">Branch</th>
+                <th rowspan="2">Target Cut</th>
+                <th rowspan="2">Build Date</th>
+                <th colspan="3" style="text-align:center;">Build Time</th>
+                <th rowspan="2" style="text-align:center;">Status</th>
             </tr>
+            <tr>
+                <td style="text-align:center;background-color:#99FF33;">India Time</td>
+                <td style="text-align:center;background-color:#99FF33;">China Time</td>
+                <td style="text-align:center;background-color:#99FF33;">Australia Time</td>
+            </tr>
+            <tr>
+                <td>29</td>
+                <td>Team_Mod</td>
+                <td>Cut 330</td>
+                <td>2018.8.29</td>
+                <td>2:30 PM</td>
+                <td>2:30 PM</td>
+                <td>2:30 PM</td>
+                <td>Merge into intermediate</td>
+            </tr>
+
+            <tr>
+                <td>27</td>
+                <td>Team_Mod</td>
+                <td>Cut 330</td>
+                <td>2018.8.29</td>
+                <td>2:30 PM</td>
+                <td>2:30 PM</td>
+                <td>2:30 PM</td>
+                <td>Merge into intermediate</td>
+            </tr>
+
+            <tr>
+                <td>28</td>
+                <td>Team_Mod</td>
+                <td>Cut 330</td>
+                <td>2018.8.29</td>
+                <td>2:30 PM</td>
+                <td>2:30 PM</td>
+                <td>2:30 PM</td>
+                <td>Merge into intermediate</td>
+            </tr>
+
         </table>
     </div>
-</div>
 
-<div id="branchStatus" class="row left" style="margin-left:15px;width:100%;">
-    <form id="insertBranch" action="" method="post">
+    <div id="jobSetting">
+        <div class="row" style="margin-left:15px;">
+            <form id="jobSettingForm" action="{{ url_for('insertNewScriptItem') }}" method="post">
+                <fieldset>
+                    <legend>Trigger Script Settings</legend>
+                    <div class="small-12 columns">
+                        <div class="small-3 columns">
+                            <label>Branch Name:
+                            </label>
+                            <select id="branchName" name="branchName">
+                                <optgroup label="China">
+                                    <option>Team_CTC_Support</option>
+                                    <option>Team_BasicMode</option>
+                                    <option>Team_ExportAS</option>
+                                </optgroup>
+                                <optgroup label="India">
+                                    <option>Team_Support</option>
+                                    <option>Team_MOD</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="small-2 columns">
+                            <label for="machineName">Machine:</label><input type="text" id="machineName"
+                                                                            name="machineName"
+                                                                            placeholder="Machine Name">
+                        </div>
+                        <div class="small-3 columns">
+                            <label for="ipAddress">IP:</label><input type="text" id="ipAddress" name="ipAddress"
+                                                                     placeholder="255.255.255.0" maxlength="15">
+                        </div>
+                        <div class="small-2 columns">
+                            <label for="userName">User Name:</label><input type="text" id="userName" name="userName"
+                                                                           placeholder="User Name">
+                        </div>
+                        <div class="small-2 columns">
+                            <label for="userPWD">Password:</label><input type="password" id="userPWD" name="userPWD"
+                                                                         placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="small-12 columns">
 
-        <div class="small-12 columns">
-            <label for="branchNameNew"> New Branch:</label><input type="text" id="BranchNameNew">
+                        <div class="small-4 columns">
+                            <label for="scriptPath">Script Path:</label><input type="text" name="scriptPath"
+                                                                               id="scriptPath">
+                        </div>
+                        <div class="small-4 columns">
+                            <label for="program">Program:</label><input type="text" name="program" id="program">
+                        </div>
+                        <div class="small-4 columns">
+                            <label for="Usage">Usage:</label><input type="text" name="Usage" id="Usage">
+                        </div>
+                    </div>
+
+                    <input type="submit" value="Submit" class="button tiny" style="border-radius:30px;"
+                           onclick="AddNewScript()">
+                </fieldset>
+
+
+            </form>
         </div>
-        <div>
-            <input type="submit" value="Add" class="button tiny round" style="margin-top:22px;">
+        <div style="margin-left:15px;width:100%">
+            <table>
+                <thead>
+                <th>Team Branch</th>
+                <th>Macihne</th>
+                <th>IP Address</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Program</th>
+                <th>Script Path</th>
+                <th>Operation</th>
+                </thead>
+                <tbody>
+                {% for i in msList %}
+                <tr>
+                    <td>{{ i.Branch_Name }}</td>
+                    <td>{{ i.Machine_Name }}</td>
+                    <td>{{ i.Ip_Address }}</td>
+                    <td>{{ i.User_Name }}</td>
+                    <td>{{ i.Password }}</td>
+                    <td>{{ i.Program }}</td>
+                    <td>{{ i.Script }}</td>
+                    <td><input type="hidden" value="{{ i.id }}"><a href="#" class="narrow_link">Run now!</a> <a href="#"
+                                                                                                                class="narrow_link">Schedule</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
         </div>
-    </form>
-    <div class="row" style="margin-left:15px;">
-        <label for="">Select Branch</label>
-        <select id="branches" class="small-3 columns">
-            <option>Mod</option>
-            <option>Basic</option>
-        </select>
     </div>
 
-    <table id="CycleBranchStatus">
-        <tr>
-            <th rowspan="2">Cycle</th>
-            <th rowspan="2">Branch</th>
-            <th rowspan="2">Target Cut</th>
-            <th rowspan="2">Build Date</th>
-            <th colspan="3" style="text-align:center;">Build Time</th>
-            <th rowspan="2" style="text-align:center;">Status</th>
-        </tr>
-        <tr>
-            <td style="text-align:center;background-color:#99FF33;">India Time</td>
-            <td style="text-align:center;background-color:#99FF33;">China Time</td>
-            <td style="text-align:center;background-color:#99FF33;">Australia Time</td>
-        </tr>
-        <tr>
-            <td>29</td>
-            <td>Team_Mod</td>
-            <td>Cut 330</td>
-            <td>2018.8.29</td>
-            <td>2:30 PM</td>
-            <td>2:30 PM</td>
-            <td>2:30 PM</td>
-            <td>Merge into intermediate</td>
-        </tr>
-
-        <tr>
-            <td>27</td>
-            <td>Team_Mod</td>
-            <td>Cut 330</td>
-            <td>2018.8.29</td>
-            <td>2:30 PM</td>
-            <td>2:30 PM</td>
-            <td>2:30 PM</td>
-            <td>Merge into intermediate</td>
-        </tr>
-
-        <tr>
-            <td>28</td>
-            <td>Team_Mod</td>
-            <td>Cut 330</td>
-            <td>2018.8.29</td>
-            <td>2:30 PM</td>
-            <td>2:30 PM</td>
-            <td>2:30 PM</td>
-            <td>Merge into intermediate</td>
-        </tr>
-
-    </table>
-</div>
-
-<div id="jobSetting" class="row left">
-    <div class="row"  style="margin-left:15px;">
-    <form id="jobSettingForm" action="{{ url_for('insertNewScriptItem') }}" method="post">
-        <fieldset>
-            <legend>Trigger Script Settings</legend>
-            <div class="small-12 columns">
-                <div class="small-3 columns">
-                    <label>Branch Name:
-                    </label>
-                    <select id="branchName" name="branchName">
-                        <optgroup label="China">
-                            <option>Team_CTC_Support</option>
-                            <option>Team_BasicMode</option>
-                            <option>Team_ExportAS</option>
-                        </optgroup>
-                        <optgroup label="India">
-                            <option>Team_Support</option>
-                            <option>Team_MOD</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="small-2 columns">
-                    <label for="machineName">Machine:</label><input type="text" id="machineName" name="machineName"
-                                                                    placeholder="Machine Name">
-                </div>
-                <div class="small-3 columns">
-                    <label for="ipAddress">IP:</label><input type="text" id="ipAddress" name="ipAddress"
-                                                               placeholder="255.255.255.0" maxlength="15">
-                </div>
-                <div class="small-2 columns">
-                    <label for="userName">User Name:</label><input type="text" id="userName" name="userName"
-                                                                   placeholder="User Name">
-                </div>
-                <div class="small-2 columns">
-                    <label for="userPWD">Password:</label><input type="password" id="userPWD" name="userPWD"
-                                                                 placeholder="Password">
-                </div>
-            </div>
-            <div class="small-12 columns">
-
-                <div class="small-4 columns">
-                    <label for="scriptPath">Script Path:</label><input type="text" name="scriptPath" id="scriptPath">
-                </div>
-                <div class="small-4 columns">
-                    <label for="program">Program:</label><input type="text" name="program" id="program">
-                </div>
-                <div class="small-4 columns">
-                    <label for="Usage">Usage:</label><input type="text" name="Usage" id="Usage">
-                </div>
-            </div>
-
-            <input type="submit" value="Submit" class="button tiny" style="border-radius:30px;">
-        </fieldset>
-
-
-    </form>
-    </div>
-    <div class="row"  style="margin-left:15px;width:100%;">
+    <div id="buildLog" class="row left">
         <table>
             <thead>
-            <th>Team Branch</th>
-            <th>Macihne</th>
-            <th>IP Address</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Program</th>
-            <th>Script Path</th>
-            <th>Operation</th>
+            <tr>
+                <th>UT Machine</th>
+                <th>IP Address</th>
+                <th>Log File</th>
+                <th>Size Change History</th>
+            </tr>
             </thead>
             <tbody>
-            {% for i in msList %}
-            <tr>
-                <td>{{ i.Branch_Name }}</td>
-                <td>{{ i.Machine_Name }}</td>
-                <td>{{ i.Ip_Address }}</td>
-                <td>{{ i.User_Name }}</td>
-                <td>{{ i.Password }}</td>
-                <td>{{ i.Program }}</td>
-                <td>{{ i.Script }}</td>
-                <td><a href="#" class="narrow_link">Run now!</a> <a href="#"
-                                                                          class="narrow_link">Schedule</a></td>
-            </tr>
-            {% endfor %}
+
             </tbody>
         </table>
     </div>
+
 </div>
-
-<div id="buildLog" class="row left">
-    <table>
-        <thead>
-        <tr>
-            <th>UT Machine</th>
-            <th>IP Address</th>
-            <th>Log File</th>
-            <th>Size Change History</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-    </table>
-</div>
-
 
 <footer>Copyright &copy; Temp</footer>
 </body>
