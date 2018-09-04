@@ -1,10 +1,9 @@
 from pymongo import MongoClient
+from DB import DB_SETTING
 import os
 
-dbconfig_file=os.pardir+'/DB.cfg'
-f=open(dbconfig_file)
-dbString=f.read()
-_DB_SETTINGS=eval(dbString)
+
+_DB_SETTINGS=DB_SETTING
 
 class DBInfo:
     host=_DB_SETTINGS['host']
@@ -19,6 +18,6 @@ def GetDB():
 
 
 if __name__ == '__main__':
-    db=GetDB(_DB_SETTINGS['db'])
-    for i in db.branches.find({}):
+    db=GetDB()
+    for i in db.MachineScript.find({}):
         print(i)

@@ -8,6 +8,17 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <script src="..\static\jquery.min.js"></script>
     <script src="..\static\custom.js"></script>
+    <script>
+
+        function change(){
+                    curVal=$("#cycleRange").val();
+                    $("#currentCycle").html("Current Cycle: "+curVal);
+                    $("#cycleList").empty();
+                    for(var i=0;i<=5;i++){
+                        $("#cycleList").append($("<p></p>").text("Cycle "+(Number(curVal)-i)))
+                    }
+        }
+    </script>
 </head>
 <body>
 <header class="header"><h1 style="color:white;">Welcome To ABSuite Release Site</h1></header>
@@ -21,10 +32,15 @@
         </ul>
     </section>
 </nav>
-<div id="releaseStatus" class="row left">
-    <select id="CycleList" class="small-2 columns" style="margin:15px;border-radius:20px;">
-    </select>
-    <div class="small-12 columns">
+<div id="releaseStatus" class="row left" style="margin-left:15px;margin-top:5px;">
+    <div class="dropdown">
+        <span>Cycle List</span>
+        <div class="dropdown-content" id="cycleList">
+        </div>
+    </div>
+    <span id="currentCycle"></span>
+    <input type="range" name="maxCycle" min="20" max="99" id="cycleRange" style="width:200px;" oninput="change()"><span id="minMaxRange"></span>
+    <div style="margin-top:20px;">
         <table>
             <caption>Branch Status</caption>
             <tr>
@@ -34,9 +50,7 @@
                 <th>Detail Link</th>
             </tr>
         </table>
-
     </div>
-
 </div>
 
 <div id="branchStatus" class="row left" style="margin-left:15px;width:100%;">
@@ -114,9 +128,9 @@
             <legend>Trigger Script Settings</legend>
             <div class="small-12 columns">
                 <div class="small-3 columns">
-                    <span>Branch Name:
-                    </span>
-                    <select>
+                    <label>Branch Name:
+                    </label>
+                    <select id="branchName" name="branchName">
                         <optgroup label="China">
                             <option>Team_CTC_Support</option>
                             <option>Team_BasicMode</option>
@@ -147,10 +161,13 @@
             </div>
             <div class="small-12 columns">
 
-                <div class="small-6 columns">
+                <div class="small-4 columns">
                     <label for="scriptPath">Script Path:</label><input type="text" name="scriptPath" id="scriptPath">
                 </div>
-                <div class="small-6 columns">
+                <div class="small-4 columns">
+                    <label for="program">Program:</label><input type="text" name="program" id="program">
+                </div>
+                <div class="small-4 columns">
                     <label for="Usage">Usage:</label><input type="text" name="Usage" id="Usage">
                 </div>
             </div>
@@ -161,7 +178,7 @@
 
     </form>
     </div>
-    <div class="row"  style="margin-left:15px;">
+    <div class="row"  style="margin-left:15px;width:100%;">
         <table>
             <thead>
             <th>Team Branch</th>
@@ -174,17 +191,19 @@
             <th>Operation</th>
             </thead>
             <tbody>
+            {% for i in msList %}
             <tr>
-                <td>Team_Mod</td>
-                <td>Build Machine</td>
-                <td>10.263.207.10</td>
-                <td>Root</td>
-                <td>Tiger</td>
-                <td>Cscript</td>
-                <td>c:/temp/script/AutoStart.vbs</td>
-                <td><a href="#" class="button tiny round">Run now!</a> <a href="#"
-                                                                          class="button tiny round">Schedule</a></td>
+                <td>{{ i.Branch_Name }}</td>
+                <td>{{ i.Machine_Name }}</td>
+                <td>{{ i.Ip_Address }}</td>
+                <td>{{ i.User_Name }}</td>
+                <td>{{ i.Password }}</td>
+                <td>{{ i.Program }}</td>
+                <td>{{ i.Script }}</td>
+                <td><a href="#" class="narrow_link">Run now!</a> <a href="#"
+                                                                          class="narrow_link">Schedule</a></td>
             </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

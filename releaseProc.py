@@ -1,5 +1,6 @@
 from flask import Flask,url_for,render_template,request,redirect,make_response
 from werkzeug.utils import secure_filename
+from MongoDA.HandleObjects import MachineScript
 
 app=Flask(__name__)
 
@@ -11,7 +12,8 @@ def hello_world(name=None):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    msList=MachineScript.returnAllData()
+    return render_template('index.html',msList=msList)
 
 @app.route('/upload',methods=["POST"])
 def upload():
@@ -20,10 +22,20 @@ def upload():
         f.save("uploads/"+secure_filename(f.filename));
     return redirect(url_for('hello_world',name=None))
 
-@app.route('/insertNewScriptItem')
+@app.route('/insertNewScriptItem',methods=["POST"])
 def insertNewScriptItem():
-
-    pass
+    ms=MachineScript(branch_name=request.form['branchName'],
+                     machine_name=request.form['machineName'],
+                     ip_address=request.form['ipAddress'],
+                     username=request.form['userName'],
+                     password=request.form['userPWD'],
+                     script=request.form['scriptPath'],
+                     usage=request.form['Usage'],
+                     id=0,
+                     program=request.form['program']
+                    )
+    ms.insert();
+    return index();
 
 @app.errorhandler(404)
 def page_not_found(error):

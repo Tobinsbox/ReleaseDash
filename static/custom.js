@@ -1,9 +1,16 @@
 $(document).ready(function () {
-            $("#CycleList").append('<option>' +"Cycle 29" + '</option>');
+            $("#currentCycle").html("Current Cycle: "+$("#cycleRange").val());
+            $("#minMaxRange").html("Min:20   Max:99");
             $("#releaseStatus").hide();
             $("#branchStatus").hide();
             $("#jobSetting").hide();
             $("#buildLog").hide();
+
+            curVal=$("#cycleRange").val();
+            $("#currentCycle").html("Current Cycle: "+curVal);
+            for(var i=0;i<=5;i++){
+                $("#cycleList").append($("<p></p>").text("Cycle "+(Number(curVal)-i)))
+            }
 
             $(".name").click(function () {
                 $(this).siblings().removeClass('active');
